@@ -177,7 +177,6 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation(platform("org.junit:junit-bom:${jUnitBomVersion}"))
-    //testImplementation("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.mockk:mockk:${mockkVersion}")
     testImplementation("org.awaitility:awaitility-kotlin:${awaitilityKVersion}")
