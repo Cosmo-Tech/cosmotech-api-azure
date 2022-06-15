@@ -24,5 +24,6 @@ internal open class CsmAzureConfiguration(
   @Bean open fun storageClient(): BlobServiceClient = blobServiceClientBuilder.buildClient()
 
   @Bean
-  open fun batchStorageClient(): BlobBatchClient = BlobBatchClientBuilder(storageClient()).buildClient()
+  open fun batchStorageClient(): BlobBatchClient =
+      BlobBatchClientBuilder(storageClient()).buildClient()
 }
