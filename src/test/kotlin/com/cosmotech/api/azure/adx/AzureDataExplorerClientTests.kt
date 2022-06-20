@@ -14,12 +14,6 @@ import com.microsoft.azure.kusto.data.KustoResultSetTable
 import com.microsoft.azure.kusto.data.exceptions.DataClientException
 import com.microsoft.azure.kusto.data.exceptions.DataServiceException
 import com.microsoft.azure.kusto.ingest.IngestClient
-import com.microsoft.azure.kusto.ingest.IngestionProperties
-import com.microsoft.azure.kusto.ingest.exceptions.IngestionClientException
-import com.microsoft.azure.kusto.ingest.result.IngestionStatus
-import com.microsoft.azure.kusto.ingest.result.IngestionStatusResult
-import com.microsoft.azure.kusto.ingest.result.OperationStatus
-import com.microsoft.azure.kusto.ingest.source.StreamSourceInfo
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -378,55 +372,5 @@ class AzureDataExplorerClientTests {
     every { kustoClient.executeToJsonResult(databaseName, any(), any()) } returns ""
     val res = azureDataExplorerClient.deleteDataFromScenarioRunId("orgId", "wk", "my-scenariorunId")
     assertEquals("", res)
-  }
-
-  @Test
-  fun `PROD-8987 - ingestScenarioValidationStatus status queued`() {
-    val status = IngestionStatus()
-    status.status = OperationStatus.Queued
-    val result = IngestionStatusResult(status)
-
-    val streamSourceInfoMock = mockk<StreamSourceInfo>()
-    val ingestionPropertiesMock = mockk<IngestionProperties>()
-    every { ingestClient.ingestFromStream(streamSourceInfoMock, ingestionPropertiesMock) } returns
-        result
-
-    val ingestionStatus =
-        this.azureDataExplorerClient.ingestFromStream(streamSourceInfoMock, ingestionPropertiesMock)
-
-    assertEquals(OperationStatus.Queued.toString(), ingestionStatus.status.toString())
-  }
-
-  @Test
-  fun `PROD-8987 - ingestScenarioValidationStatus no infinity loop`() {
-    val status = IngestionStatus()
-    status.status = OperationStatus.Pending
-    val result = IngestionStatusResult(status)
-
-    val streamSourceInfoMock = mockk<StreamSourceInfo>()
-    val ingestionPropertiesMock = mockk<IngestionProperties>()
-    every { ingestClient.ingestFromStream(streamSourceInfoMock, ingestionPropertiesMock) } returns
-        result
-
-    val ingestionStatus =
-        this.azureDataExplorerClient.ingestFromStream(streamSourceInfoMock, ingestionPropertiesMock)
-
-    assertEquals(OperationStatus.Pending.toString(), ingestionStatus.status.toString())
-  }
-
-  @Test
-  fun `PROD-8987 - ingestScenarioValidationStatus failed`() {
-    val status = IngestionStatus()
-    status.status = OperationStatus.Failed
-
-    val streamSourceInfoMock = mockk<StreamSourceInfo>()
-    val ingestionPropertiesMock = mockk<IngestionProperties>()
-
-    every { ingestClient.ingestFromStream(streamSourceInfoMock, ingestionPropertiesMock) } throws
-        IngestionClientException("Failed")
-
-    val ingestionStatus =
-        this.azureDataExplorerClient.ingestFromStream(streamSourceInfoMock, ingestionPropertiesMock)
-    assertEquals(OperationStatus.Failed.toString(), ingestionStatus.status.toString())
   }
 }

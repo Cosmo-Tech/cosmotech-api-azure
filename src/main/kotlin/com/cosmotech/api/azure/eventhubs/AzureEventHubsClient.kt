@@ -6,10 +6,14 @@ import com.azure.core.amqp.exception.AmqpErrorCondition
 import com.azure.core.amqp.exception.AmqpException
 import com.azure.core.credential.TokenCredential
 import com.azure.identity.ClientSecretCredentialBuilder
+import com.azure.messaging.eventhubs.EventData
 import com.azure.messaging.eventhubs.EventHubClientBuilder
 import com.azure.messaging.eventhubs.EventHubProducerClient
 import com.azure.messaging.eventhubs.implementation.EventHubSharedKeyCredential
 import com.cosmotech.api.config.CsmPlatformProperties
+import com.cosmotech.api.scenario.MetaData
+import com.cosmotech.api.scenario.ScenarioMetaData
+import com.cosmotech.api.scenario.ScenarioRunMetaData
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
@@ -107,4 +111,76 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
           .credential(fullyQualifiedNamespace, eventHubName, tokenCredential)
           .buildProducerClient()
           .use { doesEventHubExist(it, fullyQualifiedNamespace, eventHubName, ignoreErrors) }
+  private fun sendScenarioMetaData(
+      producer: EventHubProducerClient,
+      scenarioMetaData: ScenarioMetaData
+  ) {
+    val data =
+        "${scenarioMetaData.organizationId},${scenarioMetaData.workspaceId},${scenarioMetaData.scenarioId}," +
+            "${scenarioMetaData.name},${scenarioMetaData.description},${scenarioMetaData.parentId}," +
+            "${scenarioMetaData.solutionName},${scenarioMetaData.runTemplateName}," +
+            "${scenarioMetaData.validationStatus},${scenarioMetaData.updateTime}"
+    val eventData = EventData(data)
+    val eventDataBatch = producer.createBatch()
+    eventDataBatch.tryAdd(eventData)
+    producer.send(eventDataBatch)
+  }
+  private fun sendScenarioRunMetaData(
+      producer: EventHubProducerClient,
+      scenarioRunMetaData: ScenarioRunMetaData
+  ) {
+    val data =
+        "${scenarioRunMetaData.simulationRun},${scenarioRunMetaData.scenarioId}," +
+            "${scenarioRunMetaData.scenarioRunStartTime}"
+    val eventData = EventData(data)
+    val eventDataBatch = producer.createBatch()
+    eventDataBatch.tryAdd(eventData)
+    producer.send(eventDataBatch)
+  }
+
+  internal fun sendMetaData(producer: EventHubProducerClient, metaData: MetaData) {
+    when (metaData) {
+      is ScenarioMetaData -> sendScenarioMetaData(producer, metaData)
+      is ScenarioRunMetaData -> sendScenarioRunMetaData(producer, metaData)
+    }
+  }
+
+  private fun <T : TokenCredential> sendMetaData(
+      fullyQualifiedNamespace: String,
+      eventHubName: String,
+      tokenCredential: T,
+      metaData: MetaData
+  ) =
+      EventHubClientBuilder()
+          .credential(fullyQualifiedNamespace, eventHubName, tokenCredential)
+          .buildProducerClient()
+          .use { sendMetaData(it, metaData) }
+
+  public fun sendMetaData(
+      fullyQualifiedNamespace: String,
+      eventHubName: String,
+      metaData: MetaData
+  ) =
+      this.sendMetaData(
+          fullyQualifiedNamespace,
+          eventHubName,
+          ClientSecretCredentialBuilder()
+              .tenantId(csmPlatformProperties.azure?.credentials?.core?.tenantId!!)
+              .clientId(csmPlatformProperties.azure?.credentials?.core?.clientId!!)
+              .clientSecret(csmPlatformProperties.azure?.credentials?.core?.clientSecret!!)
+              .build(),
+          metaData)
+
+  public fun sendMetaData(
+      fullyQualifiedNamespace: String,
+      eventHubName: String,
+      sharedAccessPolicy: String,
+      sharedAccessKey: String,
+      metaData: MetaData
+  ) =
+      this.sendMetaData(
+          fullyQualifiedNamespace,
+          eventHubName,
+          EventHubSharedKeyCredential(sharedAccessPolicy, sharedAccessKey),
+          metaData)
 }
