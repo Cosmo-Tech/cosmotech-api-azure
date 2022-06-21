@@ -142,7 +142,7 @@ dependencies {
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
   implementation(platform("com.azure.spring:azure-spring-boot-bom:$azureSpringBootBomVersion"))
   api(platform("com.azure:azure-sdk-bom:$azureSDKBomVersion"))
-  api("com.azure.spring:azure-spring-boot-starter-cosmos")
+  api("com.azure.spring:azure-spring-boot-starter-cosmos:3.1.0")
   implementation("com.azure.spring:azure-spring-boot-starter-storage")
   api("com.azure:azure-storage-blob-batch")
   implementation("com.azure.spring:azure-spring-boot-starter-active-directory")
