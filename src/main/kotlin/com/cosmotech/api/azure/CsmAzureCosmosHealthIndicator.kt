@@ -20,7 +20,10 @@ class CsmAzureCosmosHealthIndicator(
 ) : HealthIndicator {
 
   private val logger = LoggerFactory.getLogger(CsmAzureCosmosHealthIndicator::class.java)
-  private val coreDatabase = csmPlatformProperties.azure!!.cosmos.coreDatabase.name
+  private val coreDatabase =
+      csmPlatformProperties.azure?.cosmos?.coreDatabase?.name
+          ?: throw IllegalArgumentException(
+              "csmPlatformProperties.azure.cosmos.coreDatabase.name should be set!")
 
   @Suppress("TooGenericExceptionCaught")
   override fun health(): Health {

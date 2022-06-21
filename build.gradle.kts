@@ -5,7 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
-  val kotlinVersion = "1.6.0"
+  val kotlinVersion = "1.7.0"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.4.2"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
@@ -142,7 +142,7 @@ dependencies {
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
   implementation(platform("com.azure.spring:azure-spring-boot-bom:$azureSpringBootBomVersion"))
   api(platform("com.azure:azure-sdk-bom:$azureSDKBomVersion"))
-  api("com.azure.spring:azure-spring-boot-starter-cosmos")
+  api("com.azure.spring:azure-spring-boot-starter-cosmos:3.1.0")
   implementation("com.azure.spring:azure-spring-boot-starter-storage")
   api("com.azure:azure-storage-blob-batch")
   implementation("com.azure.spring:azure-spring-boot-starter-active-directory")

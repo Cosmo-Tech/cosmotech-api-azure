@@ -8,8 +8,10 @@ import com.azure.spring.data.cosmos.core.CosmosTemplate
 import com.cosmotech.api.CsmPhoenixService
 import javax.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 
 @Suppress("UnnecessaryAbstractClass")
+@ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
 abstract class CsmAzureService : CsmPhoenixService() {
 
   @Autowired protected lateinit var cosmosTemplate: CosmosTemplate
@@ -20,7 +22,11 @@ abstract class CsmAzureService : CsmPhoenixService() {
 
   @PostConstruct
   fun init() {
-    this.cosmosCoreDatabase =
-        cosmosClient.getDatabase(csmPlatformProperties.azure!!.cosmos.coreDatabase.name)
+    val coreDatabase =
+        csmPlatformProperties.azure?.cosmos?.coreDatabase?.name
+            ?: throw IllegalArgumentException(
+                "csmPlatformProperties.azure.cosmos.coreDatabase.name should be set!")
+
+    this.cosmosCoreDatabase = cosmosClient.getDatabase(coreDatabase)
   }
 }

@@ -57,9 +57,15 @@ class AzureDataExplorerClient(
 
   private val logger = LoggerFactory.getLogger(AzureDataExplorerClient::class.java)
 
-  private val baseUri = csmPlatformProperties.azure!!.dataWarehouseCluster.baseUri
+  private val baseUri =
+      csmPlatformProperties.azure?.dataWarehouseCluster?.baseUri
+          ?: throw IllegalArgumentException(
+              "csmPlatformProperties.azure.dataWarehouseCluster.baseUri should be set!")
 
-  private val ingestionUri = csmPlatformProperties.azure!!.dataWarehouseCluster.options.ingestionUri
+  private val ingestionUri =
+      csmPlatformProperties.azure?.dataWarehouseCluster?.options?.ingestionUri
+          ?: throw IllegalArgumentException(
+              "csmPlatformProperties.azure.dataWarehouseCluster.options.ingestionUri should be set!")
 
   private lateinit var kustoClient: Client
 
