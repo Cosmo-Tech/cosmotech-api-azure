@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 
 @Service("csmEventHubs")
-@ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
 class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformProperties) {
 
   // TODO Make this contribute to the overall Application Health

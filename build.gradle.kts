@@ -5,7 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
-  val kotlinVersion = "1.6.0"
+  val kotlinVersion = "1.7.0"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.4.2"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
@@ -34,6 +34,7 @@ publishing {
 }
 
 repositories {
+  mavenLocal()
   maven { url = uri("https://jitpack.io") }
   // Use Maven Central for resolving dependencies.
   mavenCentral()
@@ -110,15 +111,11 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.1-SNAPSHOT"
-val azureSpringBootBomVersion = "3.14.0"
+val cosmotechApiCommonVersion = "0.1.2-SNAPSHOT"
 val azureSDKBomVersion = "1.2.0"
 val azureKustoIngestVersion = "3.1.0"
 
 val zalandoSpringProblemVersion = "0.27.0"
-val springOauthAutoConfigureVersion = "2.6.6"
-val springSecurityJwtVersion = "1.1.1.RELEASE"
-val springOauthVersion = "5.7.1"
 val springBootStarterWebVersion = "2.7.0"
 
 // Tests
@@ -140,12 +137,10 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
-  implementation(platform("com.azure.spring:azure-spring-boot-bom:$azureSpringBootBomVersion"))
   api(platform("com.azure:azure-sdk-bom:$azureSDKBomVersion"))
   api("com.azure.spring:azure-spring-boot-starter-cosmos:3.1.0")
-  implementation("com.azure.spring:azure-spring-boot-starter-storage")
+  api("com.azure.spring:azure-spring-boot-starter-storage:4.0.0")
   api("com.azure:azure-storage-blob-batch")
-  implementation("com.azure.spring:azure-spring-boot-starter-active-directory")
   implementation("com.microsoft.azure.kusto:kusto-ingest:$azureKustoIngestVersion") {
     exclude(group = "org.slf4j", module = "slf4j-api")
     because(
@@ -154,15 +149,8 @@ dependencies {
             "See http://www.slf4j.org/faq.html#changesInVersion200")
   }
   implementation("com.azure:azure-messaging-eventhubs")
-  implementation("com.azure:azure-identity")
 
   implementation("org.zalando:problem-spring-web-starter:${zalandoSpringProblemVersion}")
-  implementation(
-      "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOauthAutoConfigureVersion}")
-  implementation("org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}")
-  implementation("org.springframework.security:spring-security-oauth2-jose:${springOauthVersion}")
-  implementation(
-      "org.springframework.security:spring-security-oauth2-resource-server:${springOauthVersion}")
   implementation(
       "org.springframework.boot:spring-boot-starter-web:${springBootStarterWebVersion}") {
     exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
