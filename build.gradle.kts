@@ -5,7 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
-  val kotlinVersion = "1.6.0"
+  val kotlinVersion = "1.7.0"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.4.2"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
@@ -110,7 +110,7 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.1-SNAPSHOT"
+val cosmotechApiCommonVersion = "0.1.2-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.0"
 val azureKustoIngestVersion = "3.1.0"
