@@ -277,10 +277,10 @@ class AzureDataExplorerClient(
     }
   }
 
-  fun deleteDataFromScenarioRunId(
+  fun deleteDataFromADXbyExtentShard(
       organizationId: String,
       workspaceKey: String,
-      scenarioRunId: String
+      extentShard: String
   ): String {
     val databaseName = getDatabaseName(organizationId, workspaceKey)
     try {
@@ -289,7 +289,7 @@ class AzureDataExplorerClient(
           """
         .drop extents <|
             .show database ['${databaseName}'] extents
-            where tags has 'drop-by:${scenarioRunId}'
+            where tags has 'drop-by:${extentShard}'
     """,
           ClientRequestProperties().apply {
             timeoutInMilliSec = TimeUnit.SECONDS.toMillis(REQUEST_TIMEOUT_SECONDS)
