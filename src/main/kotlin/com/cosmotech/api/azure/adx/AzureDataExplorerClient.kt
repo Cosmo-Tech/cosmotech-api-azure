@@ -300,7 +300,7 @@ class AzureDataExplorerClient(
     }
   }
 
-  private fun queryScenarioRunWorkflowEndTime(
+  fun queryScenarioRunWorkflowEndTime(
       organizationId: String,
       workspaceId: String,
       scenarioRunId: String
