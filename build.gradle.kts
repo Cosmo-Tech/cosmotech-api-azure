@@ -110,7 +110,7 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.4-SNAPSHOT"
+val cosmotechApiCommonVersion = "0.1.8-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.0"
 val azureKustoIngestVersion = "3.1.0"

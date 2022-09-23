@@ -121,6 +121,8 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
             "${scenarioMetaData.solutionName},${scenarioMetaData.runTemplateName}," +
             "${scenarioMetaData.validationStatus},${scenarioMetaData.updateTime}"
     val eventData = EventData(data)
+    val dropTag = "drop-by:" + scenarioMetaData.scenarioId
+    eventData.getProperties().put("Tags", "['${dropTag}']")
     val eventDataBatch = producer.createBatch()
     eventDataBatch.tryAdd(eventData)
     producer.send(eventDataBatch)
@@ -133,6 +135,8 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
         "${scenarioRunMetaData.simulationRun},${scenarioRunMetaData.scenarioId}," +
             "${scenarioRunMetaData.scenarioRunStartTime}"
     val eventData = EventData(data)
+    val dropTag = "drop-by:" + scenarioRunMetaData.simulationRun
+    eventData.properties.put("Tags", "['${dropTag}']")
     val eventDataBatch = producer.createBatch()
     eventDataBatch.tryAdd(eventData)
     producer.send(eventDataBatch)
