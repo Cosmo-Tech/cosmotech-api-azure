@@ -22,11 +22,33 @@ val kotlinJvmTarget = 17
 java { toolchain { languageVersion.set(JavaLanguageVersion.of(kotlinJvmTarget)) } }
 
 publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/Cosmo-Tech/cosmotech-api-azure")
+      credentials {
+        username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+        password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
+
   publications {
     create<MavenPublication>("maven") {
       groupId = "com.github.Cosmo-Tech"
       artifactId = "cosmotech-api-azure"
       version = scmVersion.version
+      pom {
+        name.set("Cosmo Tech API azure")
+        description.set("Cosmo Tech API Azure library for Platform")
+        url.set("https://github.com/Cosmo-Tech/cosmotech-api-azure")
+        licenses {
+          license {
+            name.set("MIT License")
+            url.set("https://github.com/Cosmo-Tech/cosmotech-api-azure/blob/main/LICENSE")
+          }
+        }
+      }
 
       from(components["java"])
     }
@@ -34,8 +56,15 @@ publishing {
 }
 
 repositories {
-  maven { url = uri("https://jitpack.io") }
-  // Use Maven Central for resolving dependencies.
+  maven {
+    name = "GitHubPackages"
+    url = uri("https://maven.pkg.github.com/Cosmo-Tech/cosmotech-api-common")
+    credentials {
+      username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+      password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+    }
+  }
+
   mavenCentral()
 }
 
@@ -110,7 +139,7 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.8-SNAPSHOT"
+val cosmotechApiCommonVersion = "0.1.18-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.0"
 val azureKustoIngestVersion = "3.1.0"
