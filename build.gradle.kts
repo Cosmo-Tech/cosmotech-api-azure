@@ -5,7 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
-  val kotlinVersion = "1.7.0"
+  val kotlinVersion = "1.7.20"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.4.2"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
