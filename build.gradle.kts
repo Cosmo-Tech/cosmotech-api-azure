@@ -14,7 +14,7 @@ plugins {
   `java-library`
 }
 
-scmVersion { tag { prefix to "" } }
+scmVersion { tag { prefix.set("") } }
 
 val kotlinJvmTarget = 17
 
