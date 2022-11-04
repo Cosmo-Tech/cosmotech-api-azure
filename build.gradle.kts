@@ -145,7 +145,7 @@ val azureSDKBomVersion = "1.2.7"
 val azureKustoIngestVersion = "3.2.0"
 
 val zalandoSpringProblemVersion = "0.27.0"
-val springOauthAutoConfigureVersion = "2.6.6"
+val springOauthAutoConfigureVersion = "2.6.8"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
 val springOauthVersion = "5.7.5"
 val springBootStarterWebVersion = "2.7.0"
