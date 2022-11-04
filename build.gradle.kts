@@ -152,7 +152,7 @@ val springBootStarterWebVersion = "2.7.0"
 
 // Tests
 val jUnitBomVersion = "5.9.1"
-val mockkVersion = "1.12.4"
+val mockkVersion = "1.13.2"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
