@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3d8b29f9-77e3-45b6-beb9-e25f85eccd23" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2EONMz6DWUCsWirfFSoKPWuKyA1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;afdf8970d4a425f2bb3da95e02259717&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d8b29f9-77e3-45b6-beb9-e25f85eccd23" name="Changes" comment="" />
+      <created>1662462626649</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1662462626649</updated>
+      <workItem from="1662462628072" duration="445000" />
+      <workItem from="1662470329354" duration="1880000" />
+      <workItem from="1662533555591" duration="599000" />
+      <workItem from="1662621404197" duration="2966000" />
+      <workItem from="1662635152995" duration="404000" />
+      <workItem from="1662635582405" duration="172000" />
+      <workItem from="1662635763919" duration="203000" />
+      <workItem from="1662635974523" duration="1061000" />
+      <workItem from="1662637043378" duration="81000" />
+      <workItem from="1662637644686" duration="2901000" />
+      <workItem from="1662643999563" duration="599000" />
+      <workItem from="1662645572865" duration="599000" />
+      <workItem from="1662646798597" duration="377000" />
+      <workItem from="1662647187283" duration="54000" />
+      <workItem from="1662647258305" duration="216000" />
+      <workItem from="1662647484972" duration="1686000" />
+      <workItem from="1662649711505" duration="788000" />
+      <workItem from="1662709799753" duration="4591000" />
+      <workItem from="1663073692565" duration="599000" />
+      <workItem from="1663077514935" duration="3012000" />
+      <workItem from="1663230183198" duration="599000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

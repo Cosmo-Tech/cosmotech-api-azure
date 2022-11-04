@@ -49,17 +49,18 @@ class AzureEventHubsClientTests {
 
   @TestFactory
   fun `PROD-7420 - doesEventHubExist throws if errors other than NOT_FOUND are reported`() =
-      AmqpErrorCondition.values().filterNot { it == AmqpErrorCondition.NOT_FOUND }.map {
-          amqpErrorCondition ->
-        dynamicTest(amqpErrorCondition.name) {
-          val producer = mockk<EventHubProducerClient>()
-          every { producer.eventHubProperties } throws
-              AmqpException(true, amqpErrorCondition, amqpErrorCondition.name, null)
-          assertThrows<UnsupportedOperationException> {
-            eventHubsClient.doesEventHubExist(producer)
+      AmqpErrorCondition.values()
+          .filterNot { it == AmqpErrorCondition.NOT_FOUND }
+          .map { amqpErrorCondition ->
+            dynamicTest(amqpErrorCondition.name) {
+              val producer = mockk<EventHubProducerClient>()
+              every { producer.eventHubProperties } throws
+                  AmqpException(true, amqpErrorCondition, amqpErrorCondition.name, null)
+              assertThrows<UnsupportedOperationException> {
+                eventHubsClient.doesEventHubExist(producer)
+              }
+            }
           }
-        }
-      }
 
   @TestFactory
   fun `PROD-7420 - doesEventHubExist returns false if errors are ignored`() =

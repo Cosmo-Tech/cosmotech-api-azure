@@ -2,20 +2,19 @@
 // Licensed under the MIT license.
 import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
-import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
-  val kotlinVersion = "1.7.0"
+  val kotlinVersion = "1.7.20"
   kotlin("jvm") version kotlinVersion
-  id("com.diffplug.spotless") version "6.4.2"
+  id("com.diffplug.spotless") version "6.11.0"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
-  id("pl.allegro.tech.build.axion-release") version "1.13.6"
+  id("pl.allegro.tech.build.axion-release") version "1.14.2"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
   `java-library`
 }
 
-scmVersion { tag(closureOf<TagNameSerializationConfig> { prefix = "" }) }
+scmVersion { tag { prefix to "" } }
 
 val kotlinJvmTarget = 17
 
@@ -75,7 +74,8 @@ configure<SpotlessExtension> {
       """
         // Copyright (c) Cosmo Tech.
         // Licensed under the MIT license.
-      """.trimIndent()
+      """
+          .trimIndent()
 
   java {
     googleJavaFormat()
@@ -83,12 +83,12 @@ configure<SpotlessExtension> {
     licenseHeader(licenseHeaderComment)
   }
   kotlin {
-    ktfmt("0.30")
+    ktfmt("0.41")
     target("**/*.kt")
     licenseHeader(licenseHeaderComment)
   }
   kotlinGradle {
-    ktfmt("0.30")
+    ktfmt("0.41")
     target("**/*.kts")
     //      licenseHeader(licenseHeaderComment, "import")
   }
@@ -141,18 +141,18 @@ tasks.jar {
 // Implementation
 val cosmotechApiCommonVersion = "0.1.18-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
-val azureSDKBomVersion = "1.2.0"
-val azureKustoIngestVersion = "3.1.0"
+val azureSDKBomVersion = "1.2.7"
+val azureKustoIngestVersion = "3.2.0"
 
 val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.6"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
-val springOauthVersion = "5.7.1"
+val springOauthVersion = "5.7.5"
 val springBootStarterWebVersion = "2.7.0"
 
 // Tests
-val jUnitBomVersion = "5.8.2"
-val mockkVersion = "1.12.4"
+val jUnitBomVersion = "5.9.1"
+val mockkVersion = "1.13.2"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
@@ -194,8 +194,8 @@ dependencies {
       "org.springframework.security:spring-security-oauth2-resource-server:${springOauthVersion}")
   implementation(
       "org.springframework.boot:spring-boot-starter-web:${springBootStarterWebVersion}") {
-    exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
-  }
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+      }
   implementation(
       "org.springframework.boot:spring-boot-starter-actuator:$springBootStarterWebVersion")
 
