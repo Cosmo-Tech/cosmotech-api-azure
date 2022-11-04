@@ -173,7 +173,8 @@ class AzureDataExplorerClient(
       csmSimulationRun: String
   ): Long {
     val probesMeasuresCountQueryPrimaryResults =
-        this.kustoClient.execute(
+        this.kustoClient
+            .execute(
                 getDatabaseName(organizationId, workspaceKey),
                 """
                 ProbesMeasures
@@ -196,7 +197,8 @@ class AzureDataExplorerClient(
       csmSimulationRun: String
   ): Long {
     val sentMessagesTotalQueryPrimaryResults =
-        this.kustoClient.execute(
+        this.kustoClient
+            .execute(
                 getDatabaseName(organizationId, workspaceKey),
                 """
                 SimulationTotalFacts
@@ -219,7 +221,8 @@ class AzureDataExplorerClient(
     val healthBuilder =
         try {
           val diagnosticsResult =
-              this.kustoClient.execute(
+              this.kustoClient
+                  .execute(
                       DEFAULT_DATABASE_NAME,
                       HEALTH_KUSTO_QUERY.trimIndent(),
                       ClientRequestProperties().apply {
@@ -269,8 +272,9 @@ class AzureDataExplorerClient(
 
     return if (failureQueryPrimaryResults.next()) {
       failureQueryPrimaryResults.count() > 0 &&
-          failureQueryPrimaryResults.getKustoDateTime("FailedOn")!!.until(
-              scenarioRunWorkflowEndTime, ChronoUnit.MINUTES) <
+          failureQueryPrimaryResults
+              .getKustoDateTime("FailedOn")!!
+              .until(scenarioRunWorkflowEndTime, ChronoUnit.MINUTES) <
               this.ingestionObservationWindowToBeConsideredAFailureMinutes
     } else {
       false

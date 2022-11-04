@@ -2,20 +2,19 @@
 // Licensed under the MIT license.
 import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
-import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
   val kotlinVersion = "1.7.20"
   kotlin("jvm") version kotlinVersion
-  id("com.diffplug.spotless") version "6.4.2"
+  id("com.diffplug.spotless") version "6.11.0"
   id("io.gitlab.arturbosch.detekt") version "1.19.0"
-  id("pl.allegro.tech.build.axion-release") version "1.13.6"
+  id("pl.allegro.tech.build.axion-release") version "1.14.2"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
   `java-library`
 }
 
-scmVersion { tag(closureOf<TagNameSerializationConfig> { prefix = "" }) }
+scmVersion { tag { prefix to "" } }
 
 val kotlinJvmTarget = 17
 
@@ -75,7 +74,8 @@ configure<SpotlessExtension> {
       """
         // Copyright (c) Cosmo Tech.
         // Licensed under the MIT license.
-      """.trimIndent()
+      """
+          .trimIndent()
 
   java {
     googleJavaFormat()
@@ -83,12 +83,12 @@ configure<SpotlessExtension> {
     licenseHeader(licenseHeaderComment)
   }
   kotlin {
-    ktfmt("0.30")
+    ktfmt("0.41")
     target("**/*.kt")
     licenseHeader(licenseHeaderComment)
   }
   kotlinGradle {
-    ktfmt("0.30")
+    ktfmt("0.41")
     target("**/*.kts")
     //      licenseHeader(licenseHeaderComment, "import")
   }
@@ -194,8 +194,8 @@ dependencies {
       "org.springframework.security:spring-security-oauth2-resource-server:${springOauthVersion}")
   implementation(
       "org.springframework.boot:spring-boot-starter-web:${springBootStarterWebVersion}") {
-    exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
-  }
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+      }
   implementation(
       "org.springframework.boot:spring-boot-starter-actuator:$springBootStarterWebVersion")
 
