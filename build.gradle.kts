@@ -7,7 +7,7 @@ plugins {
   val kotlinVersion = "1.7.20"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.11.0"
-  id("io.gitlab.arturbosch.detekt") version "1.19.0"
+  id("io.gitlab.arturbosch.detekt") version "1.21.0"
   id("pl.allegro.tech.build.axion-release") version "1.14.2"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
@@ -156,11 +156,8 @@ val mockkVersion = "1.13.2"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
-
-  // Workaround until Detekt adds support for JVM Target 17
-  // See https://github.com/detekt/detekt/issues/4287
   detekt("io.gitlab.arturbosch.detekt:detekt-cli:1.21.0")
-  detekt("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.6.21")
+  detekt("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
 
   // Align versions of all Kotlin components
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
