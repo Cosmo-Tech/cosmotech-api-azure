@@ -317,4 +317,4 @@ class AzureDataExplorerClient(
 }
 
 private fun getDatabaseName(organizationId: String, workspaceKey: String) =
-    "${organizationId}-${workspaceKey}"
+    "${organizationId}-${workspaceKey}".lowercase()
