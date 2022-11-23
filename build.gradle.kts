@@ -157,7 +157,7 @@ val awaitilityKVersion = "4.2.0"
 
 dependencies {
   detekt("io.gitlab.arturbosch.detekt:detekt-cli:1.21.0")
-  detekt("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+  detekt("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
 
   // Align versions of all Kotlin components
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
