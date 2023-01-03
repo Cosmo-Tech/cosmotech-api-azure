@@ -368,7 +368,7 @@ class AzureDataExplorerClientTests {
 
   @Test
   fun `PROD-8148 - deleteDataFromADXbyExtentShard failed`() {
-    val databaseName = "orgId-wk"
+    val databaseName = "orgid-wk"
     every { kustoClient.executeToJsonResult(databaseName, any(), any()) } returns ""
     val res =
         azureDataExplorerClient.deleteDataFromADXbyExtentShard("orgId", "wk", "my-scenariorunId")
