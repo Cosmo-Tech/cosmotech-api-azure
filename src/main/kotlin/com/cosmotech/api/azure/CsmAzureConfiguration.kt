@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
-internal open class CsmAzureConfiguration {
+internal open class CsmAzureConfiguration(
+    private val blobServiceClientBuilder: BlobServiceClientBuilder
+) {
 
-  @Bean open fun storageClient(): BlobServiceClient = BlobServiceClientBuilder().buildClient()
+  @Bean open fun storageClient(): BlobServiceClient = blobServiceClientBuilder.buildClient()
 
   @Bean
   open fun batchStorageClient(): BlobBatchClient =
