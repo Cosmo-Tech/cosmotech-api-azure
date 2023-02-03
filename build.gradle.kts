@@ -139,7 +139,7 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.18-SNAPSHOT"
+val cosmotechApiCommonVersion = "0.1.31-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.7"
 val azureKustoIngestVersion = "3.2.0"
@@ -168,8 +168,8 @@ dependencies {
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
   implementation(platform("com.azure.spring:azure-spring-boot-bom:$azureSpringBootBomVersion"))
   api(platform("com.azure:azure-sdk-bom:$azureSDKBomVersion"))
-  api("com.azure.spring:azure-spring-boot-starter-cosmos")
   implementation("com.azure.spring:azure-spring-boot-starter-storage")
+  api("com.azure:azure-storage-blob")
   api("com.azure:azure-storage-blob-batch")
   implementation("com.azure.spring:azure-spring-boot-starter-active-directory")
   implementation("com.microsoft.azure.kusto:kusto-ingest:$azureKustoIngestVersion") {
