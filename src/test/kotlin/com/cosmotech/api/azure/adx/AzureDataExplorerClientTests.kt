@@ -58,7 +58,6 @@ class AzureDataExplorerClientTests {
     this.azureDataExplorerClient =
         AzureDataExplorerClient(this.csmPlatformProperties, this.eventPublisher)
     this.azureDataExplorerClient.setKustoClient(kustoClient)
-    this.azureDataExplorerClient.setIngestClient(ingestClient)
   }
 
   @Test
