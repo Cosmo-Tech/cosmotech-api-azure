@@ -12,8 +12,6 @@ import com.microsoft.azure.kusto.data.ClientRequestProperties
 import com.microsoft.azure.kusto.data.KustoOperationResult
 import com.microsoft.azure.kusto.data.auth.ConnectionStringBuilder
 import com.microsoft.azure.kusto.data.exceptions.DataServiceException
-import com.microsoft.azure.kusto.ingest.IngestClient
-import com.microsoft.azure.kusto.ingest.IngestClientFactory
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
@@ -48,11 +46,7 @@ class AzureDataExplorerClient(
 
   private val baseUri = csmPlatformProperties.azure!!.dataWarehouseCluster.baseUri
 
-  private val ingestionUri = csmPlatformProperties.azure!!.dataWarehouseCluster.options.ingestionUri
-
   private lateinit var kustoClient: Client
-
-  private lateinit var ingestClient: IngestClient
 
   private val waitingTimeBeforeIngestion =
       csmPlatformProperties.dataIngestion.waitingTimeBeforeIngestionSeconds
@@ -76,16 +70,10 @@ class AzureDataExplorerClient(
   @PostConstruct
   internal fun init() {
     this.kustoClient = ClientImpl(getConnectionStringBuilder(baseUri))
-
-    this.ingestClient = IngestClientFactory.createClient(getConnectionStringBuilder(ingestionUri))
   }
 
   internal fun setKustoClient(kustoClient: Client) {
     this.kustoClient = kustoClient
-  }
-
-  internal fun setIngestClient(ingestClient: IngestClient) {
-    this.ingestClient = ingestClient
   }
 
   fun getStateFor(
@@ -93,7 +81,7 @@ class AzureDataExplorerClient(
       workspaceKey: String,
       scenarioRunId: String,
       csmSimulationRun: String,
-  ): DataIngestionState? {
+  ): DataIngestionState {
     // Important: We only enter in this function if ingestion state can be fetch with control plane
     // information
     logger.trace("getStateFor($organizationId,$workspaceKey,$scenarioRunId,$csmSimulationRun)")
