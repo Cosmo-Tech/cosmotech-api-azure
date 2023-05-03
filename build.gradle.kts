@@ -4,11 +4,11 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-  val kotlinVersion = "1.7.20"
+  val kotlinVersion = "1.8.0"
   kotlin("jvm") version kotlinVersion
-  id("com.diffplug.spotless") version "6.11.0"
+  id("com.diffplug.spotless") version "6.12.0"
   id("io.gitlab.arturbosch.detekt") version "1.21.0"
-  id("pl.allegro.tech.build.axion-release") version "1.14.2"
+  id("pl.allegro.tech.build.axion-release") version "1.14.3"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
   `java-library`
@@ -55,6 +55,7 @@ publishing {
 }
 
 repositories {
+  mavenLocal()
   maven {
     name = "GitHubPackages"
     url = uri("https://maven.pkg.github.com/Cosmo-Tech/cosmotech-api-common")
@@ -139,7 +140,7 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.31-SNAPSHOT"
+val cosmotechApiCommonVersion = "0.1.38-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.7"
 val azureKustoIngestVersion = "3.2.0"
