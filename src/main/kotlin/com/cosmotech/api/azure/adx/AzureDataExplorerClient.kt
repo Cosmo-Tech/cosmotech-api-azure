@@ -133,7 +133,7 @@ class AzureDataExplorerClient(
     if (seconds > this.noDataTimeOutSeconds) {
       var error =
           "Time out of ${this.noDataTimeOutSeconds} seconds reached for sentMessagesTotal=0 " +
-              "with probesMeasuresCount=${probesMeasuresCount} " +
+              "with probesMeasuresCount=$probesMeasuresCount " +
               "for Scenario run $scenarioRunId (csmSimulationRun=$csmSimulationRun). "
       if (probesMeasuresCount > 0) {
         error += "There is maybe an issue in data ingestion of control plane to datawarehouse. "
@@ -145,7 +145,8 @@ class AzureDataExplorerClient(
               "Solution can set a sdkVersion < 8.5 to disable data ingestion state with control plane. " +
               "Solution can set noDataIngestionState to true on the run template to disable data ingestion " +
               "state with control plane. " +
-              "Devops admin can configure 'csm.platform.data-ingestion.state.no-data-time-out-seconds' to set this " +
+              "Devops admin can configure 'csm.platform.data-ingestion.state.no-data-time-out-seconds' " +
+              "to set this " +
               "timeout property flag for this API.")
 
       return DataIngestionState.Failure
@@ -166,7 +167,7 @@ class AzureDataExplorerClient(
                 getDatabaseName(organizationId, workspaceKey),
                 """
                 ProbesMeasures
-                | where SimulationRun == '${csmSimulationRun}'
+                | where SimulationRun == '$csmSimulationRun'
                 | count
             """,
                 ClientRequestProperties().apply {
@@ -190,7 +191,7 @@ class AzureDataExplorerClient(
                 getDatabaseName(organizationId, workspaceKey),
                 """
                 SimulationTotalFacts
-                | where SimulationId == '${csmSimulationRun}'
+                | where SimulationId == '$csmSimulationRun'
                 | summarize SentMessagesTotal = sum(SentMessagesTotal)
             """,
                 ClientRequestProperties().apply {
@@ -199,7 +200,7 @@ class AzureDataExplorerClient(
             .primaryResults
     if (!sentMessagesTotalQueryPrimaryResults.next()) {
       throw IllegalStateException(
-          "Missing record in table SimulationTotalFacts for simulation ${csmSimulationRun}")
+          "Missing record in table SimulationTotalFacts for simulation $csmSimulationRun")
     }
     return sentMessagesTotalQueryPrimaryResults.getLongObject("SentMessagesTotal")!!
   }
@@ -280,8 +281,8 @@ class AzureDataExplorerClient(
           databaseName,
           """
         .drop extents <|
-            .show database ['${databaseName}'] extents
-            where tags has 'drop-by:${extentShard}'
+            .show database ['$databaseName'] extents
+            where tags has 'drop-by:$extentShard'
     """,
           ClientRequestProperties().apply {
             timeoutInMilliSec = TimeUnit.SECONDS.toMillis(REQUEST_TIMEOUT_SECONDS)
@@ -305,4 +306,4 @@ class AzureDataExplorerClient(
 }
 
 private fun getDatabaseName(organizationId: String, workspaceKey: String) =
-    "${organizationId}-${workspaceKey}".lowercase()
+    "$organizationId-$workspaceKey".lowercase()
