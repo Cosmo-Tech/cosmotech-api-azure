@@ -7,7 +7,7 @@ import com.cosmotech.api.events.CsmEventPublisher
 import com.cosmotech.api.events.ScenarioRunEndTimeRequest
 import com.cosmotech.api.scenariorun.DataIngestionState
 import com.microsoft.azure.kusto.data.Client
-import com.microsoft.azure.kusto.data.ClientImpl
+import com.microsoft.azure.kusto.data.ClientFactory
 import com.microsoft.azure.kusto.data.ClientRequestProperties
 import com.microsoft.azure.kusto.data.KustoOperationResult
 import com.microsoft.azure.kusto.data.auth.ConnectionStringBuilder
@@ -69,7 +69,7 @@ class AzureDataExplorerClient(
 
   @PostConstruct
   internal fun init() {
-    this.kustoClient = ClientImpl(getConnectionStringBuilder(baseUri))
+    this.kustoClient = ClientFactory.createClient(getConnectionStringBuilder(baseUri))
   }
 
   internal fun setKustoClient(kustoClient: Client) {
