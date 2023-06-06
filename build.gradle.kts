@@ -182,6 +182,7 @@ dependencies {
   implementation("com.azure:azure-messaging-eventhubs")
   implementation("com.azure:azure-identity")
   implementation("com.azure.resourcemanager:azure-resourcemanager:2.27.0")
+  implementation("com.azure:azure-containers-containerregistry:1.1.0")
 
   implementation("org.zalando:problem-spring-web-starter:${zalandoSpringProblemVersion}")
   implementation(
