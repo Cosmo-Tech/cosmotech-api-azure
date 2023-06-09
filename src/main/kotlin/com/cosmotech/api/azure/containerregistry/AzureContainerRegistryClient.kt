@@ -9,6 +9,7 @@ import com.azure.core.credential.TokenCredential
 import com.azure.identity.ClientSecretCredentialBuilder
 import com.cosmotech.api.config.CsmPlatformProperties
 import com.cosmotech.api.exceptions.CsmResourceNotFoundException
+import java.lang.reflect.InvocationTargetException
 import java.util.stream.Collectors
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service
 
 private const val REGISTRY_NAME = "csmenginesdev"
 
-@Suppress("UnusedPrivateMember")
 @Service("csmContainerRegistry")
 @ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
 class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatformProperties) {
@@ -83,7 +83,13 @@ class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatfor
       throw CsmResourceNotFoundException("The repository ${repository} doesn't exist")
     }
 
-    val repository = registryClient.getRepository(repository)
-    repository.getArtifact(version).getTagProperties(version)
+    try {
+      val repository = registryClient.getRepository(repository)
+      repository.getArtifact(version).getTagProperties(version)
+    } catch (e: InvocationTargetException) {
+      val logMessage = "Artifact $repository:$version not found in the registry $REGISTRY_NAME"
+      logger.warn(logMessage, e)
+      throw CsmResourceNotFoundException(logMessage)
+    }
   }
 }
