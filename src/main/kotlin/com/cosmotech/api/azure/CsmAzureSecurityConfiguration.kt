@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
+import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +32,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 internal open class CsmAzureSecurityConfiguration(
     private val aadJwtAuthenticationConverter: Converter<Jwt, out AbstractAuthenticationToken>,
     private val csmPlatformProperties: CsmPlatformProperties,
-) : AbstractSecurityConfiguration() {
+) : AbstractSecurityConfiguration {
 
   private val logger = LoggerFactory.getLogger(CsmAzureSecurityConfiguration::class.java)
 
@@ -41,12 +42,17 @@ internal open class CsmAzureSecurityConfiguration(
       csmPlatformProperties.identityProvider?.userGroup ?: ROLE_ORGANIZATION_USER
   private val organizationViewerGroup =
       csmPlatformProperties.identityProvider?.viewerGroup ?: ROLE_ORGANIZATION_VIEWER
-
-  override fun configure(http: HttpSecurity) {
+  @Bean
+  @Throws(Exception::class)
+  open fun filterChain(http: HttpSecurity): SecurityFilterChain? {
     logger.info("Azure Active Directory http security configuration")
     super.getOAuth2JwtConfigurer(
             http, organizationAdminGroup, organizationUserGroup, organizationViewerGroup)
+        .oauth2ResourceServer()
+        .jwt()
         ?.jwtAuthenticationConverter(aadJwtAuthenticationConverter)
+
+    return http.build()
   }
 
   @Bean
