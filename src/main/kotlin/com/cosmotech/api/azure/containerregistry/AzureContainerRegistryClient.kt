@@ -15,15 +15,14 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 
-private const val REGISTRY_NAME = "csmenginesdev"
-
 @Service("csmContainerRegistry")
 @ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
 class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatformProperties) {
 
   private val logger = LoggerFactory.getLogger(AzureContainerRegistryClient::class.java)
 
-  private fun getEndPoint() = "https://" + REGISTRY_NAME + ".azurecr.io"
+  private fun getEndPoint() =
+      "https://" + csmPlatformProperties.azure?.containerRegistries?.solutions
 
   public fun checkSolutionImage(repository: String, version: String) {
 
@@ -36,19 +35,6 @@ class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatfor
 
     checkSolutionImage(credential, repository, version)
   }
-
-  public fun checkSolutionImage(
-      repository: String,
-      version: String,
-      sharedAccessPolicy: String,
-      sharedAccessKey: String
-  ) =
-      this.checkSolutionImage(
-          com.azure.messaging.eventhubs.implementation.EventHubSharedKeyCredential(
-              sharedAccessPolicy, sharedAccessKey),
-          repository,
-          version)
-
   private fun <T : TokenCredential> checkSolutionImage(
       tokenCredential: T,
       repository: String,
@@ -77,7 +63,7 @@ class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatfor
             .listRepositoryNames()
             .stream()
             .collect(Collectors.toList())
-            .contains(repository) // filter{it == solution.repository}.count()
+            .contains(repository)
 
     if (!repositoryFound) {
       throw CsmResourceNotFoundException("The repository ${repository} doesn't exist")
@@ -87,7 +73,9 @@ class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatfor
       val repository = registryClient.getRepository(repository)
       repository.getArtifact(version).getTagProperties(version)
     } catch (e: InvocationTargetException) {
-      val logMessage = "Artifact $repository:$version not found in the registry $REGISTRY_NAME"
+      val logMessage =
+          "Artifact $repository:$version not found in the registry " +
+              "$csmPlatformProperties.azure?.containerRegistries?.solutions"
       logger.warn(logMessage, e)
       throw CsmResourceNotFoundException(logMessage)
     }
