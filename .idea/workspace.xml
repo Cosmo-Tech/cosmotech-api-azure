@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d8b29f9-77e3-45b6-beb9-e25f85eccd23" name="Changes" comment="No more adx ingest client">
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-    </list>
+    <list default="true" id="3d8b29f9-77e3-45b6-beb9-e25f85eccd23" name="Changes" comment="License system in gradle" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,6 +73,25 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="recentNewPullRequestHead">
+      <RepoCoordinatesHolder>
+        <option name="owner" value="Cosmo-Tech" />
+        <option name="repository" value="cosmotech-api-azure" />
+      </RepoCoordinatesHolder>
+    </option>
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="6d321c3b-6d98-4ef3-bfba-463e3536926f" />
+        <option name="url" value="git@github.com:Cosmo-Tech/cosmotech-api-azure.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -186,8 +201,16 @@
       <workItem from="1679476047552" duration="2116000" />
       <workItem from="1679481050929" duration="1872000" />
       <workItem from="1683884321906" duration="34000" />
-      <workItem from="1687888216747" duration="353000" />
+      <workItem from="1687888216747" duration="609000" />
     </task>
+    <task id="LOCAL-00001" summary="License system in gradle">
+      <created>1687888636934</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1687888636934</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +229,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="No more adx ingest client" />
-    <option name="LAST_COMMIT_MESSAGE" value="No more adx ingest client" />
+    <MESSAGE value="License system in gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="License system in gradle" />
   </component>
 </project>
