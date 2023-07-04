@@ -54,7 +54,9 @@ publishing {
   }
 }
 
+
 repositories {
+  mavenLocal()
   maven {
     name = "GitHubPackages"
     url = uri("https://maven.pkg.github.com/Cosmo-Tech/cosmotech-api-common")
@@ -139,16 +141,16 @@ tasks.jar {
 
 // Dependencies version
 // Implementation
-val cosmotechApiCommonVersion = "0.1.39-SNAPSHOT"
-val azureSpringBootBomVersion = "3.14.0"
-val azureSDKBomVersion = "1.2.7"
+val cosmotechApiCommonVersion = "0.1.43-SNAPSHOT"
+val azureSpringBootBomVersion = "5.3.0"
+val azureSDKBomVersion = "1.2.14"
 val azureKustoIngestVersion = "3.2.0"
 
 val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
 val springOauthVersion = "5.8.3"
-val springBootStarterWebVersion = "2.7.11"
+val springBootStarterWebVersion = "3.1.0"
 
 // Tests
 val jUnitBomVersion = "5.9.1"
@@ -166,12 +168,13 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
-  implementation(platform("com.azure.spring:azure-spring-boot-bom:$azureSpringBootBomVersion"))
+
+  implementation(platform("com.azure.spring:spring-cloud-azure-dependencies:$azureSpringBootBomVersion"))
   api(platform("com.azure:azure-sdk-bom:$azureSDKBomVersion"))
-  implementation("com.azure.spring:azure-spring-boot-starter-storage")
+  implementation("com.azure.spring:spring-cloud-azure-autoconfigure")
   api("com.azure:azure-storage-blob")
   api("com.azure:azure-storage-blob-batch")
-  implementation("com.azure.spring:azure-spring-boot-starter-active-directory")
+  implementation("com.azure.spring:spring-cloud-azure-starter-active-directory")
   implementation("com.microsoft.azure.kusto:kusto-ingest:$azureKustoIngestVersion") {
     exclude(group = "org.slf4j", module = "slf4j-api")
     because(

@@ -13,23 +13,20 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.convert.converter.Converter
-import org.springframework.security.authentication.AbstractAuthenticationToken
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
-import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
+import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
 @ConditionalOnProperty(
     name = ["csm.platform.identityProvider.code"], havingValue = "azure", matchIfMissing = true)
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
 internal open class CsmAzureSecurityConfiguration(
-    private val aadJwtAuthenticationConverter: Converter<Jwt, out AbstractAuthenticationToken>,
     private val csmPlatformProperties: CsmPlatformProperties,
 ) : AbstractSecurityConfiguration() {
 
@@ -42,12 +39,17 @@ internal open class CsmAzureSecurityConfiguration(
   private val organizationViewerGroup =
       csmPlatformProperties.identityProvider?.viewerGroup ?: ROLE_ORGANIZATION_VIEWER
 
-  override fun configure(http: HttpSecurity) {
-    logger.info("Azure Active Directory http security configuration")
-    super.getOAuth2JwtConfigurer(
+
+    @Bean
+    @Throws(Exception::class)
+    open fun filterChain(http: HttpSecurity): SecurityFilterChain? {
+        logger.info("Azure http security configuration")
+        http.apply(CsmAzureHttpSecurityConfigurer.resourceServer())
+        super.getOAuth2JwtConfigurer(
             http, organizationAdminGroup, organizationUserGroup, organizationViewerGroup)
-        ?.jwtAuthenticationConverter(aadJwtAuthenticationConverter)
-  }
+        return http.build()
+    }
+
 
   @Bean
   open fun jwtDecoder(csmSecurityValidator: CsmSecurityValidator): JwtDecoder {
@@ -87,4 +89,7 @@ internal open class CsmAzureSecurityConfiguration(
     nimbusJwtDecoder.setJwtValidator(DelegatingOAuth2TokenValidator(validators))
     return nimbusJwtDecoder
   }
+
+
+
 }
