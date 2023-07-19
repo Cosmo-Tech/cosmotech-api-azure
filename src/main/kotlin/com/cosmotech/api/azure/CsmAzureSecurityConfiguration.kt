@@ -44,9 +44,10 @@ internal open class CsmAzureSecurityConfiguration(
 
   override fun configure(http: HttpSecurity) {
     logger.info("Azure Active Directory http security configuration")
-    super.getOAuth2JwtConfigurer(
+    super.getOAuth2ResourceServer(
             http, organizationAdminGroup, organizationUserGroup, organizationViewerGroup)
-        ?.jwtAuthenticationConverter(aadJwtAuthenticationConverter)
+        .jwt()
+        .jwtAuthenticationConverter(aadJwtAuthenticationConverter)
   }
 
   @Bean
