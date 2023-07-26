@@ -8,6 +8,7 @@ import com.azure.containers.containerregistry.models.ContainerRegistryAudience
 import com.azure.core.credential.TokenCredential
 import com.azure.identity.ClientSecretCredentialBuilder
 import com.cosmotech.api.config.CsmPlatformProperties
+import com.cosmotech.api.containerregistry.RegistryClient
 import com.cosmotech.api.exceptions.CsmResourceNotFoundException
 import java.lang.reflect.InvocationTargetException
 import java.util.stream.Collectors
@@ -16,15 +17,18 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 
 @Service("csmContainerRegistry")
-@ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
-class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatformProperties) {
+@ConditionalOnProperty(
+    name = ["csm.platform.containerRegistry.provider"],
+    havingValue = "azure",
+    matchIfMissing = true)
+class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatformProperties) :
+    RegistryClient {
 
   private val logger = LoggerFactory.getLogger(AzureContainerRegistryClient::class.java)
 
-  private fun getEndPoint() =
-      "https://" + csmPlatformProperties.azure?.containerRegistries?.solutions
+  override fun getEndpoint() = csmPlatformProperties.containerRegistry.registryUrl
 
-  public fun checkSolutionImage(repository: String, version: String) {
+  override fun checkSolutionImage(repository: String, version: String) {
 
     val credential =
         ClientSecretCredentialBuilder()
@@ -42,7 +46,7 @@ class AzureContainerRegistryClient(private val csmPlatformProperties: CsmPlatfor
   ) {
     val registryClient: ContainerRegistryClient =
         ContainerRegistryClientBuilder()
-            .endpoint(getEndPoint())
+            .endpoint(getEndpoint())
             .credential(tokenCredential)
             .audience(ContainerRegistryAudience.AZURE_RESOURCE_MANAGER_PUBLIC_CLOUD)
             .buildClient()
