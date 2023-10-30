@@ -4,11 +4,11 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-  val kotlinVersion = "1.8.0"
+  val kotlinVersion = "1.9.10"
   kotlin("jvm") version kotlinVersion
-  id("com.diffplug.spotless") version "6.12.0"
-  id("io.gitlab.arturbosch.detekt") version "1.21.0"
-  id("pl.allegro.tech.build.axion-release") version "1.14.3"
+  id("com.diffplug.spotless") version "6.22.0"
+  id("io.gitlab.arturbosch.detekt") version "1.23.1"
+  id("pl.allegro.tech.build.axion-release") version "1.15.5"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
   `java-library`
@@ -55,6 +55,7 @@ publishing {
 }
 
 repositories {
+  mavenLocal()
   maven {
     name = "GitHubPackages"
     url = uri("https://maven.pkg.github.com/Cosmo-Tech/cosmotech-api-common")
@@ -109,23 +110,27 @@ tasks.withType<Detekt>().configureEach {
     html {
       // observe findings in your browser with structure and code snippets
       required.set(true)
-      outputLocation.set(file("$buildDir/reports/detekt/${project.name}-detekt.html"))
+      outputLocation.set(
+          file("${layout.buildDirectory.get()}/reports/detekt/${project.name}-detekt.html"))
     }
     xml {
       // checkstyle like format mainly for integrations like Jenkins
       required.set(false)
-      outputLocation.set(file("$buildDir/reports/detekt/${project.name}-detekt.xml"))
+      outputLocation.set(
+          file("${layout.buildDirectory.get()}/reports/detekt/${project.name}-detekt.xml"))
     }
     txt {
       // similar to the console output, contains issue signature to manually edit baseline files
       required.set(true)
-      outputLocation.set(file("$buildDir/reports/detekt/${project.name}-detekt.txt"))
+      outputLocation.set(
+          file("${layout.buildDirectory.get()}/reports/detekt/${project.name}-detekt.txt"))
     }
     sarif {
       // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations
       // with Github Code Scanning
       required.set(true)
-      outputLocation.set(file("$buildDir/reports/detekt/${project.name}-detekt.sarif"))
+      outputLocation.set(
+          file("${layout.buildDirectory.get()}/reports/detekt/${project.name}-detekt.sarif"))
     }
   }
 }
@@ -138,6 +143,12 @@ tasks.jar {
 }
 
 // Dependencies version
+
+// Required versions
+val jacksonVersion = "2.15.3"
+val springWebVersion = "6.0.13"
+val springBootVersion = "3.1.5"
+
 // Implementation
 val cosmotechApiCommonVersion = "0.2.2-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
@@ -147,17 +158,21 @@ val azureKustoIngestVersion = "3.2.0"
 val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
-val springOauthVersion = "5.8.3"
-val springBootStarterWebVersion = "2.7.11"
+val springOauthVersion = "6.1.5"
+val springBootStarterWebVersion = "3.1.5"
+
+// Checks
+val detektVersion = "1.23.1"
 
 // Tests
-val jUnitBomVersion = "5.9.1"
-val mockkVersion = "1.13.2"
+val jUnitBomVersion = "5.10.0"
+val mockkVersion = "1.13.8"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
-  detekt("io.gitlab.arturbosch.detekt:detekt-cli:1.21.0")
-  detekt("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+  detekt("io.gitlab.arturbosch.detekt:detekt-cli:$detektVersion")
+  detekt("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+  detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:$detektVersion")
 
   // Align versions of all Kotlin components
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -166,33 +181,44 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
-  implementation(platform("com.azure.spring:azure-spring-boot-bom:$azureSpringBootBomVersion"))
-  api(platform("com.azure:azure-sdk-bom:$azureSDKBomVersion"))
-  implementation("com.azure.spring:azure-spring-boot-starter-storage")
-  api("com.azure:azure-storage-blob")
-  api("com.azure:azure-storage-blob-batch")
-  implementation("com.azure.spring:azure-spring-boot-starter-active-directory")
-  implementation("com.microsoft.azure.kusto:kusto-ingest:$azureKustoIngestVersion") {
-    exclude(group = "org.slf4j", module = "slf4j-api")
-    because(
-        "this depends on org.slf4j:slf4j-api 1.8.0-beta4 (pre 2.x)," +
-            "which is not backward-compatible with 1.7.x." +
-            "See http://www.slf4j.org/faq.html#changesInVersion200")
-  }
-  implementation("com.azure:azure-messaging-eventhubs")
-  implementation("com.azure:azure-identity")
+  // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-dependencies
+  implementation("com.azure.spring:spring-cloud-azure-dependencies:6.0.0-beta.4")
+  // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
+  implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob:6.0.0-beta.4")
+  // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage
+  implementation("com.azure.spring:spring-cloud-azure-starter-storage:6.0.0-beta.4")
+  // https://mvnrepository.com/artifact/com.azure/azure-storage-blob-batch
+  implementation("com.azure:azure-storage-blob-batch:12.20.1")
 
-  implementation("org.zalando:problem-spring-web-starter:${zalandoSpringProblemVersion}")
+  // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
+  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:6.0.0-beta.4")
+  // https://mvnrepository.com/artifact/com.microsoft.azure.kusto/kusto-ingest
+  implementation("com.microsoft.azure.kusto:kusto-ingest:5.0.2")
+  // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
+  implementation("com.azure:azure-containers-containerregistry:1.2.2")
+  // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-eventhubs
+  implementation("com.azure.spring:spring-cloud-azure-starter-eventhubs:6.0.0-beta.4")
+
   implementation(
-      "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOauthAutoConfigureVersion}")
-  implementation("org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}")
+      "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOauthAutoConfigureVersion}") {
+        constraints {
+          implementation("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
+          implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+          implementation("org.springframework:spring-web:$springWebVersion")
+          implementation("org.springframework.boot:spring-boot-autoconfigure:$springBootVersion")
+        }
+      }
+  implementation(
+      "org.springframework.boot:spring-boot-starter-security:${springOauthAutoConfigureVersion}")
   implementation("org.springframework.security:spring-security-oauth2-jose:${springOauthVersion}")
   implementation(
       "org.springframework.security:spring-security-oauth2-resource-server:${springOauthVersion}")
+  implementation("org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}")
   implementation(
       "org.springframework.boot:spring-boot-starter-web:${springBootStarterWebVersion}") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
       }
+
   implementation(
       "org.springframework.boot:spring-boot-starter-actuator:$springBootStarterWebVersion")
 
