@@ -182,22 +182,22 @@ dependencies {
 
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-dependencies
-  implementation("com.azure.spring:spring-cloud-azure-dependencies:6.0.0-beta.4")
+  implementation("com.azure.spring:spring-cloud-azure-dependencies:5.7.0")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
-  implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob:6.0.0-beta.4")
+  implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob:5.7.0")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage
-  implementation("com.azure.spring:spring-cloud-azure-starter-storage:6.0.0-beta.4")
+  implementation("com.azure.spring:spring-cloud-azure-starter-storage:5.7.0")
   // https://mvnrepository.com/artifact/com.azure/azure-storage-blob-batch
   implementation("com.azure:azure-storage-blob-batch:12.20.1")
 
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
-  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:6.0.0-beta.4")
+  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.7.0")
   // https://mvnrepository.com/artifact/com.microsoft.azure.kusto/kusto-ingest
   implementation("com.microsoft.azure.kusto:kusto-ingest:5.0.2")
   // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
   implementation("com.azure:azure-containers-containerregistry:1.2.2")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-eventhubs
-  implementation("com.azure.spring:spring-cloud-azure-starter-eventhubs:6.0.0-beta.4")
+  implementation("com.azure.spring:spring-cloud-azure-starter-eventhubs:5.7.0")
 
   implementation(
       "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOauthAutoConfigureVersion}") {
