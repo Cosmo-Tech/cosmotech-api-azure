@@ -53,7 +53,7 @@ internal open class CsmAzureSecurityConfiguration(
       csmPlatformProperties.identityProvider?.viewerGroup ?: ROLE_ORGANIZATION_VIEWER
 
   @Bean
-  open fun filterChain(http: HttpSecurity): SecurityFilterChain? {
+  open fun filterChain(http: HttpSecurity): SecurityFilterChain {
     logger.info("Azure Active Directory http security configuration")
     // See
     // https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/spring-security-support?tabs=SpringCloudAzure5x
