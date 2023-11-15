@@ -31,19 +31,19 @@ import org.springframework.boot.actuate.health.Status
 @ExtendWith(MockKExtension::class)
 class AzureDataExplorerClientTests {
 
-  @MockK(relaxed = true) private lateinit var csmPlatformProperties: CsmPlatformProperties
-  @MockK(relaxed = true) private lateinit var kustoClient: Client
-  @MockK(relaxed = true) private lateinit var ingestClient: IngestClient
-  @MockK(relaxed = true) private lateinit var eventPublisher: CsmEventPublisher
+  @MockK private lateinit var csmPlatformProperties: CsmPlatformProperties
+  @MockK private lateinit var kustoClient: Client
+  @MockK private lateinit var ingestClient: IngestClient
+  @MockK private lateinit var eventPublisher: CsmEventPublisher
 
   private lateinit var azureDataExplorerClient: AzureDataExplorerClient
 
   @BeforeTest
   fun beforeTest() {
-    this.csmPlatformProperties = mockk(relaxUnitFun = true)
-    this.kustoClient = mockk(relaxUnitFun = true)
-    this.ingestClient = mockk(relaxUnitFun = true)
-    this.eventPublisher = mockk(relaxUnitFun = true)
+    this.csmPlatformProperties = mockk()
+    this.kustoClient = mockk()
+    this.ingestClient = mockk()
+    this.eventPublisher = mockk()
     val csmPlatformPropertiesAzure = mockk<CsmPlatformAzure>()
     val csmPlatformPropertiesAzureDataWarehouseCluster =
         mockk<CsmPlatformAzureDataWarehouseCluster>()
