@@ -43,8 +43,6 @@ internal open class CsmAzureSecurityConfiguration(
 
   private val logger = LoggerFactory.getLogger(CsmAzureSecurityConfiguration::class.java)
 
-  private val microsoftOnlineIssuer = "https://login.microsoftonline.com/"
-
   private val organizationAdminGroup =
       csmPlatformProperties.identityProvider?.adminGroup ?: ROLE_PLATFORM_ADMIN
   private val organizationUserGroup =
@@ -84,8 +82,7 @@ internal open class CsmAzureSecurityConfiguration(
   ): JwtDecoder {
 
     val identityEndpoints =
-        AadAuthorizationServerEndpoints(
-            aadAuthenticationProperties.appIdUri, aadAuthenticationProperties.profile.tenantId)
+        AadAuthorizationServerEndpoints("", aadAuthenticationProperties.profile.tenantId)
 
     val nimbusJwtDecoder =
         NimbusJwtDecoder.withJwkSetUri(identityEndpoints.jwkSetEndpoint)
@@ -120,14 +117,9 @@ internal open class CsmAzureSecurityConfiguration(
     } else {
       // Validate against the list of allowed tenants
       val tenantValidator =
-          JwtClaimValidator(csmPlatformProperties.authorization.tenantIdJwtClaim) { issuer: String
-            ->
-            val issuerSplit = issuer.split(microsoftOnlineIssuer)
-            if (issuerSplit.size > 1) {
-              allowedTenants.contains(issuerSplit[1])
-            } else {
-              false
-            }
+          JwtClaimValidator(csmPlatformProperties.authorization.tenantIdJwtClaim) {
+              claimValue: String ->
+            allowedTenants.contains(claimValue)
           }
       validators.add(tenantValidator)
     }
