@@ -22,13 +22,13 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class AzureEventHubsClientTests {
 
-  @MockK(relaxed = true) private lateinit var csmPlatformProperties: CsmPlatformProperties
+  @MockK private lateinit var csmPlatformProperties: CsmPlatformProperties
 
   private lateinit var eventHubsClient: AzureEventHubsClient
 
   @BeforeTest
   fun beforeTest() {
-    this.csmPlatformProperties = mockk(relaxUnitFun = true)
+    this.csmPlatformProperties = mockk()
     eventHubsClient = AzureEventHubsClient(csmPlatformProperties)
   }
 
