@@ -68,6 +68,8 @@ repositories {
   mavenCentral()
 }
 
+tasks.withType<JavaCompile>() { options.compilerArgs.add("-parameters") }
+
 configure<SpotlessExtension> {
   isEnforceCheck = false
 
