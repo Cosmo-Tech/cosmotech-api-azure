@@ -172,6 +172,7 @@ val mockkVersion = "1.13.8"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
+  constraints { implementation("org.yaml:snakeyaml:2.2") }
   detekt("io.gitlab.arturbosch.detekt:detekt-cli:$detektVersion")
   detekt("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
   detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:$detektVersion")
