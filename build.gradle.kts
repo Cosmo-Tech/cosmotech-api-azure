@@ -148,11 +148,11 @@ tasks.jar {
 
 // Required versions
 val jacksonVersion = "2.15.3"
-val springWebVersion = "6.0.13"
-val springBootVersion = "3.1.5"
+val springWebVersion = "6.1.4"
+val springBootVersion = "3.2.2"
 
 // Implementation
-val cosmotechApiCommonVersion = "0.2.2-SNAPSHOT"
+val cosmotechApiCommonVersion = "0.2.3-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.7"
 val azureKustoIngestVersion = "3.2.0"
@@ -160,8 +160,8 @@ val azureKustoIngestVersion = "3.2.0"
 val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
-val springOauthVersion = "6.1.5"
-val springBootStarterWebVersion = "3.1.5"
+val springOauthVersion = "6.2.2"
+val springBootStarterWebVersion = "3.2.2"
 
 // Checks
 val detektVersion = "1.23.1"

@@ -33,7 +33,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.util.StringUtils
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @ConditionalOnProperty(
     name = ["csm.platform.identityProvider.code"], havingValue = "azure", matchIfMissing = true)
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
