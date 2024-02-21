@@ -4,6 +4,7 @@ package com.cosmotech.api.azure
 
 import com.azure.storage.blob.models.BlobStorageException
 import com.cosmotech.api.exceptions.CsmExceptionHandling
+import java.net.URI
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
@@ -17,6 +18,8 @@ private const val HTTP_STATUS_CODE_CONFLICT = 409
 @Order(Ordered.HIGHEST_PRECEDENCE)
 internal class AzureExceptionHandling : CsmExceptionHandling() {
 
+  private val httpStatusCodeTypePrefix = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/"
+
   @ExceptionHandler
   fun handleBlobStorageException(exception: BlobStorageException): ProblemDetail {
     val status =
@@ -24,9 +27,13 @@ internal class AzureExceptionHandling : CsmExceptionHandling() {
           HTTP_STATUS_CODE_CONFLICT -> HttpStatus.CONFLICT
           else -> HttpStatus.INTERNAL_SERVER_ERROR
         }
-    if (exception.message == null) {
-      return ProblemDetail.forStatus(status)
+
+    val problemDetail = ProblemDetail.forStatus(status)
+    problemDetail.type = URI.create(httpStatusCodeTypePrefix + status.value())
+
+    if (exception.message != null) {
+      problemDetail.detail = exception.message
     }
-    return ProblemDetail.forStatusAndDetail(status, exception.message!!)
+    return problemDetail
   }
 }
