@@ -141,7 +141,7 @@ tasks.jar {
 // Implementation
 val cosmotechApiCommonVersion = "0.2.2-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
-val azureSDKBomVersion = "1.2.7"
+val azureSDKBomVersion = "1.2.21"
 val azureKustoIngestVersion = "3.2.0"
 
 val zalandoSpringProblemVersion = "0.27.0"
