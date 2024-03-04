@@ -4,7 +4,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-  val kotlinVersion = "1.8.0"
+  val kotlinVersion = "1.9.22"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.12.0"
   id("io.gitlab.arturbosch.detekt") version "1.21.0"
