@@ -156,7 +156,7 @@ val mockkVersion = "1.13.2"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
-  detekt("io.gitlab.arturbosch.detekt:detekt-cli:1.21.0")
+  detekt("io.gitlab.arturbosch.detekt:detekt-cli:1.23.5")
   detekt("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
 
   // Align versions of all Kotlin components
