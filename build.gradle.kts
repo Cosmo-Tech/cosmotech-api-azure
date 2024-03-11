@@ -163,7 +163,7 @@ val springOauthVersion = "6.2.2"
 val springBootStarterWebVersion = "3.2.2"
 
 // Checks
-val detektVersion = "1.23.1"
+val detektVersion = "1.23.5"
 
 // Tests
 val jUnitBomVersion = "5.10.0"
