@@ -193,7 +193,7 @@ dependencies {
   implementation("com.azure:azure-storage-blob-batch:12.20.1")
 
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
-  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.7.0")
+  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.10.0")
   // https://mvnrepository.com/artifact/com.microsoft.azure.kusto/kusto-ingest
   implementation("com.microsoft.azure.kusto:kusto-ingest:5.0.2")
   // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
