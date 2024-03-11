@@ -7,7 +7,7 @@ plugins {
   val kotlinVersion = "1.9.10"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.22.0"
-  id("io.gitlab.arturbosch.detekt") version "1.23.1"
+  id("io.gitlab.arturbosch.detekt") version "1.23.5"
   id("pl.allegro.tech.build.axion-release") version "1.15.5"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
