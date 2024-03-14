@@ -167,7 +167,7 @@ val detektVersion = "1.23.1"
 
 // Tests
 val jUnitBomVersion = "5.10.0"
-val mockkVersion = "1.13.8"
+val mockkVersion = "1.13.10"
 val awaitilityKVersion = "4.2.0"
 
 dependencies {
