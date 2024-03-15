@@ -4,10 +4,10 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-  val kotlinVersion = "1.9.10"
+  val kotlinVersion = "1.9.23"
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.22.0"
-  id("io.gitlab.arturbosch.detekt") version "1.23.1"
+  id("io.gitlab.arturbosch.detekt") version "1.23.5"
   id("pl.allegro.tech.build.axion-release") version "1.15.5"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
@@ -16,7 +16,7 @@ plugins {
 
 scmVersion { tag { prefix.set("") } }
 
-val kotlinJvmTarget = 17
+val kotlinJvmTarget = 21
 
 java { toolchain { languageVersion.set(JavaLanguageVersion.of(kotlinJvmTarget)) } }
 
@@ -163,7 +163,7 @@ val springOauthVersion = "6.2.2"
 val springBootStarterWebVersion = "3.2.2"
 
 // Checks
-val detektVersion = "1.23.1"
+val detektVersion = "1.23.5"
 
 // Tests
 val jUnitBomVersion = "5.10.0"
