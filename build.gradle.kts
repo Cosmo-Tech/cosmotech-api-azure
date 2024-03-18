@@ -184,7 +184,7 @@ dependencies {
 
   api("com.github.Cosmo-Tech:cosmotech-api-common:$cosmotechApiCommonVersion")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-dependencies
-  implementation("com.azure.spring:spring-cloud-azure-dependencies:5.7.0")
+  implementation("com.azure.spring:spring-cloud-azure-dependencies:5.10.0")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
   implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob:5.7.0")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage
