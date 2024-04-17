@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 package com.cosmotech.api.azure.adx
 
+import com.cosmotech.api.clients.ResultDataClient
 import com.cosmotech.api.config.CsmPlatformProperties
 import com.cosmotech.api.events.CsmEventPublisher
 import com.cosmotech.api.events.ScenarioRunEndTimeRequest
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
 import org.springframework.boot.actuate.health.Health
 import org.springframework.boot.actuate.health.HealthIndicator
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.stereotype.Service
 
 private const val REQUEST_TIMEOUT_SECONDS = 30L
@@ -36,11 +37,11 @@ internal const val HEALTH_KUSTO_QUERY =
 
 @Service("csmADX")
 @Suppress("TooManyFunctions")
-@ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
+@ConditionalOnExpression("'\${csm.platform.use-internal-result-services}' == 'false'")
 class AzureDataExplorerClient(
     private val csmPlatformProperties: CsmPlatformProperties,
     val eventPublisher: CsmEventPublisher
-) : HealthIndicator {
+) : HealthIndicator, ResultDataClient {
 
   private val logger = LoggerFactory.getLogger(AzureDataExplorerClient::class.java)
 
@@ -76,7 +77,7 @@ class AzureDataExplorerClient(
     this.kustoClient = kustoClient
   }
 
-  fun getStateFor(
+  override fun getStateFor(
       organizationId: String,
       workspaceKey: String,
       scenarioRunId: String,
@@ -270,7 +271,7 @@ class AzureDataExplorerClient(
     }
   }
 
-  fun deleteDataFromADXbyExtentShard(
+  override fun deleteDataFromADXbyExtentShard(
       organizationId: String,
       workspaceKey: String,
       extentShard: String
