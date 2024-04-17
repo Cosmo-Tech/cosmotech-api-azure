@@ -10,17 +10,19 @@ import com.azure.messaging.eventhubs.EventData
 import com.azure.messaging.eventhubs.EventHubClientBuilder
 import com.azure.messaging.eventhubs.EventHubProducerClient
 import com.azure.messaging.eventhubs.implementation.EventHubSharedKeyCredential
+import com.cosmotech.api.clients.EventBusClient
 import com.cosmotech.api.config.CsmPlatformProperties
 import com.cosmotech.api.scenario.MetaData
 import com.cosmotech.api.scenario.ScenarioMetaData
 import com.cosmotech.api.scenario.ScenarioRunMetaData
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.stereotype.Service
 
 @Service("csmEventHubs")
-@ConditionalOnProperty(name = ["csm.platform.vendor"], havingValue = "azure", matchIfMissing = true)
-class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformProperties) {
+@ConditionalOnExpression("'\${csm.platform.use-internal-result-services}' == 'false'")
+class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformProperties) :
+    EventBusClient {
 
   // TODO Make this contribute to the overall Application Health
 
@@ -160,7 +162,7 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
           .buildProducerClient()
           .use { sendMetaData(it, metaData) }
 
-  public fun sendMetaData(
+  override fun sendMetaData(
       fullyQualifiedNamespace: String,
       eventHubName: String,
       metaData: MetaData
@@ -175,7 +177,7 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
               .build(),
           metaData)
 
-  public fun sendMetaData(
+  override fun sendMetaData(
       fullyQualifiedNamespace: String,
       eventHubName: String,
       sharedAccessPolicy: String,
