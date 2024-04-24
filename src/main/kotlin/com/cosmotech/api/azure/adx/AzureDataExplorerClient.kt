@@ -37,7 +37,7 @@ internal const val HEALTH_KUSTO_QUERY =
 
 @Service("csmADX")
 @Suppress("TooManyFunctions")
-@ConditionalOnExpression("'\${csm.platform.use-internal-result-services}' == 'false'")
+@ConditionalOnExpression("'\${csm.platform.internalResultServices.enabled}' == 'false'")
 class AzureDataExplorerClient(
     private val csmPlatformProperties: CsmPlatformProperties,
     val eventPublisher: CsmEventPublisher
