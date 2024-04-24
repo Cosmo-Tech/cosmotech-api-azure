@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.stereotype.Service
 
 @Service("csmEventHubs")
-@ConditionalOnExpression("'\${csm.platform.use-internal-result-services}' == 'false'")
+@ConditionalOnExpression("'\${csm.platform.internalResultServices.enabled}' == 'false'")
 class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformProperties) :
     EventBusClient {
 
