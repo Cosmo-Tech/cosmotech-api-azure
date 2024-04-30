@@ -8,7 +8,7 @@ plugins {
   kotlin("jvm") version kotlinVersion
   id("com.diffplug.spotless") version "6.25.0"
   id("io.gitlab.arturbosch.detekt") version "1.23.5"
-  id("pl.allegro.tech.build.axion-release") version "1.15.5"
+  id("pl.allegro.tech.build.axion-release") version "1.17.2"
   `maven-publish`
   // Apply the java-library plugin for API and implementation separation.
   `java-library`
