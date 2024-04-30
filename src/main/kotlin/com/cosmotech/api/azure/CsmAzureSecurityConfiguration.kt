@@ -66,7 +66,11 @@ internal open class CsmAzureSecurityConfiguration(
     jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter)
 
     super.getOAuth2ResourceServer(
-            http, organizationAdminGroup, organizationUserGroup, organizationViewerGroup)
+            http,
+            organizationAdminGroup,
+            organizationUserGroup,
+            organizationViewerGroup,
+            csmPlatformProperties)
         .oauth2ResourceServer { oauth2 ->
           oauth2.jwt { jwt -> run { jwt.jwtAuthenticationConverter(jwtAuthenticationConverter) } }
         }
