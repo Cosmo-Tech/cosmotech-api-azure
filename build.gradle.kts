@@ -55,6 +55,7 @@ publishing {
 }
 
 repositories {
+  mavenLocal()
   maven {
     name = "GitHubPackages"
     url = uri("https://maven.pkg.github.com/Cosmo-Tech/cosmotech-api-common")
@@ -151,7 +152,7 @@ val springWebVersion = "6.1.4"
 val springBootVersion = "3.2.5"
 
 // Implementation
-val cosmotechApiCommonVersion = "1.0.0"
+val cosmotechApiCommonVersion = "1.0.2-SNAPSHOT"
 val azureSpringBootBomVersion = "3.14.0"
 val azureSDKBomVersion = "1.2.7"
 val azureKustoIngestVersion = "3.2.0"
@@ -160,7 +161,7 @@ val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
 val springOauthVersion = "6.2.2"
-val springBootStarterWebVersion = "3.2.2"
+val springBootStarterWebVersion = "3.2.5"
 
 // Checks
 val detektVersion = "1.23.5"
