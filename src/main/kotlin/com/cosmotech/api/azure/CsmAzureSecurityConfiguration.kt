@@ -34,7 +34,8 @@ import org.springframework.util.StringUtils
 
 @Configuration
 @EnableWebSecurity
-@ConditionalOnProperty(name = ["csm.platform.identityProvider.code"], havingValue = "azure", matchIfMissing = true)
+@ConditionalOnProperty(
+    name = ["csm.platform.identityProvider.code"], havingValue = "azure", matchIfMissing = true)
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
 internal open class CsmAzureSecurityConfiguration(
     private val csmPlatformProperties: CsmPlatformProperties,
