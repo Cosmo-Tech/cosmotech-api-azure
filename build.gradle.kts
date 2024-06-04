@@ -152,9 +152,6 @@ val springBootVersion = "3.2.5"
 
 // Implementation
 val cosmotechApiCommonVersion = "1.0.2-SNAPSHOT"
-val azureSpringBootBomVersion = "3.14.0"
-val azureSDKBomVersion = "1.2.7"
-val azureKustoIngestVersion = "3.2.0"
 
 val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
@@ -194,12 +191,8 @@ dependencies {
 
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
   implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.7.0")
-  // https://mvnrepository.com/artifact/com.microsoft.azure.kusto/kusto-ingest
-  implementation("com.microsoft.azure.kusto:kusto-ingest:5.0.2")
   // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
   implementation("com.azure:azure-containers-containerregistry:1.2.2")
-  // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-eventhubs
-  implementation("com.azure.spring:spring-cloud-azure-starter-eventhubs:5.7.0")
 
   implementation(
       "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOauthAutoConfigureVersion}") {
