@@ -192,7 +192,7 @@ dependencies {
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
   implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.7.0")
   // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
-  implementation("com.azure:azure-containers-containerregistry:1.2.2")
+  implementation("com.azure:azure-containers-containerregistry:1.2.8")
 
   implementation(
       "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springOauthAutoConfigureVersion}") {
