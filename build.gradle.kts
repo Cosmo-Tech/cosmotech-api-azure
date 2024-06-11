@@ -195,7 +195,7 @@ dependencies {
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
   implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.7.0")
   // https://mvnrepository.com/artifact/com.microsoft.azure.kusto/kusto-ingest
-  implementation("com.microsoft.azure.kusto:kusto-ingest:5.0.2")
+  implementation("com.microsoft.azure.kusto:kusto-ingest:5.0.5")
   // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
   implementation("com.azure:azure-containers-containerregistry:1.2.2")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-eventhubs
