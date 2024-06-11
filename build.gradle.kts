@@ -157,7 +157,7 @@ val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
 val springSecurityJwtVersion = "1.1.1.RELEASE"
 val springOauthVersion = "6.2.2"
-val springBootStarterWebVersion = "3.2.5"
+val springBootStarterWebVersion = "3.3.0"
 
 // Checks
 val detektVersion = "1.23.5"
