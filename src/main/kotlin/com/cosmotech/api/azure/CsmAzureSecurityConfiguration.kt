@@ -7,6 +7,7 @@ import com.azure.spring.cloud.autoconfigure.implementation.aad.security.constant
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.jwt.AadJwtIssuerValidator
 import com.azure.spring.cloud.autoconfigure.implementation.aad.security.properties.AadAuthorizationServerEndpoints
 import com.azure.spring.cloud.autoconfigure.implementation.aad.utils.AadRestTemplateCreator.createRestTemplate
+import com.cosmotech.api.azure.config.CsmAzureProperties
 import com.cosmotech.api.config.CsmPlatformProperties
 import com.cosmotech.api.security.AbstractSecurityConfiguration
 import com.cosmotech.api.security.ROLE_ORGANIZATION_USER
@@ -39,16 +40,17 @@ import org.springframework.util.StringUtils
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
 internal open class CsmAzureSecurityConfiguration(
     private val csmPlatformProperties: CsmPlatformProperties,
+    private val csmAzureProperties: CsmAzureProperties,
 ) : AbstractSecurityConfiguration() {
 
   private val logger = LoggerFactory.getLogger(CsmAzureSecurityConfiguration::class.java)
 
   private val organizationAdminGroup =
-      csmPlatformProperties.identityProvider?.adminGroup ?: ROLE_PLATFORM_ADMIN
+      csmPlatformProperties.identityProvider.adminGroup ?: ROLE_PLATFORM_ADMIN
   private val organizationUserGroup =
-      csmPlatformProperties.identityProvider?.userGroup ?: ROLE_ORGANIZATION_USER
+      csmPlatformProperties.identityProvider.userGroup ?: ROLE_ORGANIZATION_USER
   private val organizationViewerGroup =
-      csmPlatformProperties.identityProvider?.viewerGroup ?: ROLE_ORGANIZATION_VIEWER
+      csmPlatformProperties.identityProvider.viewerGroup ?: ROLE_ORGANIZATION_VIEWER
 
   @Bean
   open fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -58,7 +60,7 @@ internal open class CsmAzureSecurityConfiguration(
     val jwtAuthenticationConverter = JwtAuthenticationConverter()
     val jwtGrantedAuthoritiesConverter = JwtGrantedAuthoritiesConverter()
 
-    csmPlatformProperties.azure?.claimToAuthorityPrefix?.get("roles").let {
+    csmAzureProperties.claimToAuthorityPrefix["roles"].let {
       jwtGrantedAuthoritiesConverter.setAuthorityPrefix(it)
     }
 
@@ -97,8 +99,8 @@ internal open class CsmAzureSecurityConfiguration(
 
     val tenantConfiguration =
         mutableListOf(
-            csmPlatformProperties.azure?.credentials?.core?.tenantId,
-            csmPlatformProperties.azure?.credentials?.customer?.tenantId)
+            csmAzureProperties.credentials.core.tenantId,
+            csmAzureProperties.credentials.customer?.tenantId)
     tenantConfiguration.addAll(csmPlatformProperties.authorization.allowedTenants)
 
     val allowedTenants = tenantConfiguration.filterNotNull().filterNot(String::isBlank).toSet()
