@@ -8,7 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 /** Configuration Properties for the Cosmo Tech Platform on Azure */
 @Suppress("LongParameterList")
 @ConfigurationProperties(prefix = "csm.platform.azure")
-@ConditionalOnProperty(prefix = "csm.platform.vendor", havingValue = "azure", matchIfMissing = true)
+@ConditionalOnProperty(
+    prefix = "csm.platform.vendor", havingValue = "azure", matchIfMissing = false)
 class CsmAzureProperties(
 
     /** Define if current API use azure services or not */
