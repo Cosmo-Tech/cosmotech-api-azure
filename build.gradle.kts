@@ -151,7 +151,7 @@ val springWebVersion = "6.1.4"
 val springBootVersion = "3.2.5"
 
 // Implementation
-val cosmotechApiCommonVersion = "1.0.2-SNAPSHOT"
+val cosmotechApiCommonVersion = "2.0.0-SNAPSHOT"
 
 val zalandoSpringProblemVersion = "0.27.0"
 val springOauthAutoConfigureVersion = "2.6.8"
