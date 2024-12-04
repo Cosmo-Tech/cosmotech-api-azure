@@ -183,7 +183,7 @@ dependencies {
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-dependencies
   implementation("com.azure.spring:spring-cloud-azure-dependencies:5.7.0")
   // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-autoconfigure
-  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.7.0")
+  implementation("com.azure.spring:spring-cloud-azure-autoconfigure:5.13.0")
   // https://mvnrepository.com/artifact/com.azure/azure-containers-containerregistry
   implementation("com.azure:azure-containers-containerregistry:1.2.2")
 
