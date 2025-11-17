@@ -223,6 +223,8 @@ dependencies {
 
   implementation(
       "org.springframework.boot:spring-boot-starter-actuator:$springBootStarterWebVersion")
+  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.2")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.2")
 
   testImplementation(kotlin("test"))
   testImplementation(platform("org.junit:junit-bom:${jUnitBomVersion}"))
