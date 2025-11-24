@@ -6,12 +6,16 @@ import com.azure.core.amqp.exception.AmqpErrorCondition
 import com.azure.core.amqp.exception.AmqpException
 import com.azure.messaging.eventhubs.EventHubProducerClient
 import com.cosmotech.api.config.CsmPlatformProperties
+import com.cosmotech.api.scenario.ScenarioMetaData
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
+import java.time.Instant
+import java.util.Date
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.DynamicTest.dynamicTest
@@ -85,5 +89,51 @@ class AzureEventHubsClientTests {
     val producer = mockk<EventHubProducerClient>()
     every { producer.eventHubProperties } throws Exception()
     assertThrows<IllegalStateException> { eventHubsClient.doesEventHubExist(producer) }
+  }
+
+  @Test
+  fun `PROD-14934 - test ScenarioMetadaData conversion for ADX`() {
+    val organizationId = "organization-Id"
+    val workspaceId = "workspace-Id"
+    val scenarioId = "scenario-Id"
+    val name = "My wonderful scenario"
+    val description =
+        """Dans l'obscurité silencieuse d'une nuit étoilée, mon âme vagabonde sur les ailes du vent.
+            Chaque souffle murmure une histoire ancienne, un chant oublié porté par le temps.
+            Les étoiles, telles des sentinelles lumineuses, veillent sur mes pensées,
+            éclairant les recoins secrets de mon cœur épris de liberté.
+
+            Au cœur de la forêt enchantée, les arbres dansent sous le souffle d'une brise légère.
+            Chaque feuille vibrant d'une mélodie "douce" évoque le passage du temps et la magie des instants fugaces.
+            Le murmure de la rivière, compagnon fidèle de mes errances,
+            chante une ode à l'espoir et à l'éternel renouveau.
+
+            Dans ce tableau vivant, chaque instant est une perle rare, suspendue entre le passé et l'avenir.
+            Mon regard se perd dans l'infini, cherchant la vérité qui se cache derrière l'horizon.
+            Les échos de mes rêves s'entrelacent aux couleurs de l'aube,
+            tissant la toile d'une destinée incertaine mais sublime."""
+    val parentId = "parent-Id"
+    val solutionName = "this is a solution name"
+    val runTemplateName = "this is a run template name"
+    val validationStatus = "this is a validation status"
+    val updateTime = Date.from(Instant.now()).toString()
+
+    val csvData =
+        eventHubsClient.constructScenarioData(
+            ScenarioMetaData(
+                organizationId,
+                workspaceId,
+                scenarioId,
+                name,
+                description,
+                parentId,
+                solutionName,
+                runTemplateName,
+                validationStatus,
+                updateTime))
+
+    AzureEventHubsClientTests::class.java.getResourceAsStream("/test-scenariodata.csv")!!.use {
+      assertEquals(it.bufferedReader().readText().replace("\$dateTime", updateTime), csvData)
+    }
   }
 }

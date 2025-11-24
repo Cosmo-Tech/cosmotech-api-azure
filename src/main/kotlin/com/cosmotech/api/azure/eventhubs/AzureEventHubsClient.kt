@@ -15,6 +15,9 @@ import com.cosmotech.api.config.CsmPlatformProperties
 import com.cosmotech.api.scenario.MetaData
 import com.cosmotech.api.scenario.ScenarioMetaData
 import com.cosmotech.api.scenario.ScenarioRunMetaData
+import com.fasterxml.jackson.dataformat.csv.CsvMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import java.io.ByteArrayOutputStream
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.stereotype.Service
@@ -25,6 +28,8 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
     EventBusClient {
 
   // TODO Make this contribute to the overall Application Health
+
+  private val csvMapper = CsvMapper().registerKotlinModule()
 
   private val logger = LoggerFactory.getLogger(AzureEventHubsClient::class.java)
 
@@ -117,18 +122,38 @@ class AzureEventHubsClient(private val csmPlatformProperties: CsmPlatformPropert
       producer: EventHubProducerClient,
       scenarioMetaData: ScenarioMetaData
   ) {
-    val data =
-        "${scenarioMetaData.organizationId},${scenarioMetaData.workspaceId},${scenarioMetaData.scenarioId}," +
-            "${scenarioMetaData.name},${scenarioMetaData.description},${scenarioMetaData.parentId}," +
-            "${scenarioMetaData.solutionName},${scenarioMetaData.runTemplateName}," +
-            "${scenarioMetaData.validationStatus},${scenarioMetaData.updateTime}"
-    val eventData = EventData(data)
+    val csvData = constructScenarioData(scenarioMetaData)
+    val eventData = EventData(csvData)
     val dropTag = "drop-by:" + scenarioMetaData.scenarioId
     eventData.getProperties().put("Tags", "['$dropTag']")
     val eventDataBatch = producer.createBatch()
     eventDataBatch.tryAdd(eventData)
     producer.send(eventDataBatch)
   }
+
+  fun constructScenarioData(scenarioMetaData: ScenarioMetaData): String {
+    val baos = ByteArrayOutputStream()
+    val rawData =
+        arrayOf(
+            scenarioMetaData.organizationId,
+            scenarioMetaData.workspaceId,
+            scenarioMetaData.scenarioId,
+            scenarioMetaData.name,
+            scenarioMetaData.description,
+            scenarioMetaData.parentId,
+            scenarioMetaData.solutionName,
+            scenarioMetaData.runTemplateName,
+            scenarioMetaData.validationStatus,
+            scenarioMetaData.updateTime)
+    csvMapper
+        .writer(CsvMapper().schemaFor(AdxScenarioData::class.java).withoutHeader())
+        .writeValues(baos)
+        .writeAll(rawData)
+
+    val csvData = baos.toString(Charsets.UTF_8)
+    return csvData
+  }
+
   private fun sendScenarioRunMetaData(
       producer: EventHubProducerClient,
       scenarioRunMetaData: ScenarioRunMetaData
